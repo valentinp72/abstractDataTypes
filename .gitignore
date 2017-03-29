@@ -1,3 +1,9 @@
+# Ignore binary files (with no extensions)
+*
+!*.*
+!*/
+!Makefile
+
 # Object files
 *.o
 *.ko
