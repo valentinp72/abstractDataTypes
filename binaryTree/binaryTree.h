@@ -3,87 +3,85 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#if __STDC_VERSION__ >= 199901L
-	#include <stdbool.h>
-#else
-	typedef enum {false, true} bool;
-#endif
+#include <stdbool.h>
 
 #define ERROR    1
 #define NO_ERROR 0
+
+// Print debugging
+extern bool tree_printDebug;
 
 /* ----------------- */
 /* TYPES DEFINITIONS */
 /* ----------------- */
 
-typedef struct node_s{
+typedef struct tree_s{
 	int number;
 	void * label;
-	struct node_s * left;
-	struct node_s * right;
-} node;
+	struct tree_s * left;
+	struct tree_s * right;
+	struct tree_s * father;
+} tree;
 
-typedef struct binaryTree_s{
-	int size;
-	node * root;
-} binaryTree;
 
 
 /* ----------------------- */
-/* FUNCTIONS FOR THE NODES */
+/* FUNCTIONS FOR THE TREES */
 /* ----------------------- */
 
-// Return the number of a node
-int node_numberRead(node * n);
+// Return the number of a tree
+int tree_numberRead(tree * t);
 
-// Write the number in a node 
-void node_numberWrite(node * n, int number);
+// Write the number in a tree 
+void tree_numberWrite(tree * t, int number);
 
-// Return the label of a node
-void * node_labelRead(node * n);
+// Return the label of a tree
+void * tree_labelRead(tree * t);
 
-// Write the label of a node
-void node_labelWrite(node * n, void * label);
+// Write the label of a tree
+void tree_labelWrite(tree * t, void * label);
 
-// Return the left tree of a node
-node * node_leftTreeRead(node * n);
+// Return the left tree of a tree
+tree * tree_leftTreeRead(tree * t);
 
-// Return the right tree of a node
-node * node_rightTreeRead(node * n);
+// Return the right tree of a tree
+tree * tree_rightTreeRead(tree * nt);
 
-// Write the left tree of a node
-void node_leftTreeWrite(node * n, node * left);
+// Write the left tree of a tree
+void tree_leftTreeWrite(tree * t, tree * left);
 
-// Write the right tree of a node
-void node_rightTreeWrite(node * n, node * right);
+// Write the right tree of a tree
+void tree_rightTreeWrite(tree * t, tree * right);
 
-// Return true if the node exist
-bool node_exist(node * n);
+// Return true if the tree exist
+bool tree_exist(tree * t);
 
-// Return true if the node is a leaf
-bool node_isLeaf(node * n);
+// Return true if the tree is a leaf
+bool tree_isLeaf(tree * t);
 
-// Return true if the node is father
-bool node_isFather(node * n);
+// Return true if the tree is father
+bool tree_isFather(tree * t);
 
-// Create a node
-node * node_create(int number, void * label, node * left, node * right);
+// Create a tree
+tree * tree_create(int number, void * label, tree * father, tree * left, tree * right);
 
-// Destroy the node
-void node_destroy(node ** n);
+// Update the pointers for the father for all the tree
+void tree_updateFathers(tree * t);
 
-// Destroy the node and their childs
-void node_destoryChilds(node ** n);
+// Destroy the tree
+void tree_destroyOnly(tree ** t);
 
-// Print a node (must give a function pointer to print the label)
-void node_print(node * n, void (*labelPrint)(void *));
+// Destroy the tree and their childs
+void tree_destroy(tree ** t);
 
-// Print a node and all their childs
-void node_printChilds(node * n, void (*labelPrint)(void *), int depth);
+// Print a tree (must give a function pointer to print the label)
+void tree_print(tree * t, void (*labelPrint)(void *));
 
-// Return the pointer to the node with the number given
-node * node_numberSearch(node * n, int number);
+// Print a tree and all their childs
+void tree_printChilds(tree * t, void (*labelPrint)(void *), int depth);
+
+// Return the pointer to the tree with the number given
+tree * tree_numberSearch(tree * t, int number);
 
 
 /* ---------------------------------------- */
@@ -115,22 +113,16 @@ void label_printChar(void * e);
 void label_printString(void * e);
 
 
-/* ----------------------- */
-/* FUNCTIONS FOR THE TREES */
-/* ----------------------- */
+/* ---------------------- */
+/* FUNCTIONS FOR COLORING */
+/* ---------------------- */
 
-// Return true if the tree is empty
-bool tree_isEmpty(binaryTree * t);
-
-// Create and return a pointer to a tree
-binaryTree * tree_create(int size, node * root);
-
-// Destory a tree (and all it's nodes)
-void tree_destroy(binaryTree ** t);
-
-// Print a tree
-void tree_print(binaryTree * t, void (*labelPrint)(void *));
-
-
+#define TREE_COLOR_RED     "\x1b[31m"
+#define TREE_COLOR_GREEN   "\x1b[32m"
+#define TREE_COLOR_YELLOW  "\x1b[33m"
+#define TREE_COLOR_BLUE    "\x1b[34m"
+#define TREE_COLOR_MAGENTA "\x1b[35m"
+#define TREE_COLOR_CYAN    "\x1b[36m"
+#define TREE_COLOR_RESET   "\x1b[0m"
 
 #endif

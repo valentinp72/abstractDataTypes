@@ -1,164 +1,202 @@
 #include "binaryTree.h"
 
+// Default value for debug. Don't touch this, change it within your code
+bool tree_printDebug = false;
+
+
+
 /* ----------------------- */
-/* FUNCTIONS FOR THE NODES */
+/* FUNCTIONS FOR THE TREES */
 /* ----------------------- */
 
-// Return the number of a node
-int node_numberRead(node * n){
-	if(n != NULL)
-		return n->number;
+// Return the number of a tree
+int tree_numberRead(tree * t){
+	if(t != NULL)
+		return t->number;
 	return ERROR;
 }
 
-// Write the number in a node 
-void node_numberWrite(node * n, int number){
-	if(n != NULL)
-		n->number = number;
+// Write the number in a tree
+void tree_numberWrite(tree * t, int number){
+	if(t != NULL)
+		t->number = number;
 }
 
-// Return the label of a node
-void * node_labelRead(node * n){
-	if(n != NULL)
-		return n->label;
+// Return the label of a tree
+void * tree_labelRead(tree * t){
+	if(t != NULL)
+		return t->label;
 	return NULL;
 }
 
-// Write the label of a node
-void node_labelWrite(node * n, void * label){
-	if(n != NULL)
-		n->label = label;
+// Write the label of a tree
+void tree_labelWrite(tree * t, void * label){
+	if(t != NULL)
+		t->label = label;
 }
 
-// Return the left tree of a node
-node * node_leftTreeRead(node * n){
-	if(n != NULL)
-		return n->left;
+// Return the left tree of a tree
+tree * tree_leftTreeRead(tree * t){
+	if(t != NULL)
+		return t->left;
 	return NULL;
 }
 
-// Return the right tree of a node
-node * node_rightTreeRead(node * n){
-	if(n != NULL)
-		return n->right;
+// Return the right tree of a tree
+tree * tree_rightTreeRead(tree * t){
+	if(t != NULL)
+		return t->right;
 	return NULL;
 }
 
-// Write the left tree of a node
-void node_leftTreeWrite(node * n, node * left){
-	if(n != NULL)
-		n->left = left;
+// Write the left tree of a tree
+void tree_leftTreeWrite(tree * t, tree * left){
+	if(t != NULL)
+		t->left = left;
 }
 
-// Write the right tree of a node
-void node_rightTreeWrite(node * n, node * right){
-	if(n != NULL)
-		n->right = right;
+// Write the right tree of a tree
+void tree_rightTreeWrite(tree * t, tree * right){
+	if(t != NULL)
+		t->right = right;
 }
 
-// Return true if the node exist
-bool node_exist(node * n){
-	return n != NULL;
+// Return true if the tree exist
+bool tree_exist(tree * t){
+	return t != NULL;
 }
 
-// Return true if the node is a leaf
-bool node_isLeaf(node * n){
-	return n != NULL && n->left == NULL && n->right == NULL; 
+// Return true if the tree is a leaf
+bool tree_isLeaf(tree * t){
+	return t != NULL && t->left == NULL && t->right == NULL;
 }
 
-// Return true if the node is father
-bool node_isFather(node * n){
-	return !node_isLeaf(n);
+// Return true if the tree is father
+bool tree_isFather(tree * t){
+	return !tree_isLeaf(t);
 }
 
-// Create a node
-node * node_create(int number, void * label, node * left, node * right){
-	node * n = malloc(sizeof(node));
+// Create a tree
+tree * tree_create(int number, void * label, tree* father, tree * left, tree * right){
+	tree * t = malloc(sizeof(tree));
 
-	n->number = number;
-	n->label  = label;
-	n->left   = left;
-	n->right  = right;
+	t->number = number;
+	t->label  = label;
+	t->father = father;
+	t->left   = left;
+	t->right  = right;
 
-	return n;
+	return t;
 }
 
-// Destroy the node
-void node_destroy(node ** n){
-	if(*n != NULL)
-		free(*n);
-	*n = NULL;
-}
-
-// Destroy the node and their childs
-void node_destoryChilds(node ** n){
-	if(*n != NULL){
-		node_destoryChilds(&((*n)->left));
-		node_destoryChilds(&((*n)->right));
-		node_destroy(n);
+// Update the pointers for the father for all the tree
+void tree_updateFathers(tree * t){
+	if(t != NULL){
+		if(t->left != NULL){
+			t->left->father = t;
+			tree_updateFathers(t->left);
+		}
+		if(t->right != NULL){
+			t->right->father = t;
+			tree_updateFathers(t->right);
+		}
 	}
 }
 
-// Print a node (must give a function pointer to print the label)
-void node_print(node * n, void (*labelPrint)(void *)){
-	if(n != NULL){
-		printf("Node n°%i:\n\tLabel: ", n->number);
-		labelPrint(n->label);
-		printf("\n\tLeft-tree: %p | Right-tree: %p\n", n->left, n->right);
+// Destroy the tree
+void tree_destroyOnly(tree ** t){
+	if(*t != NULL)
+		free(*t);
+	*t = NULL;
+}
+
+// Destroy the tree and their childs
+void tree_destroy(tree ** t){
+	if(*t != NULL){
+		tree_destroy(&((*t)->left));
+		tree_destroy(&((*t)->right));
+		tree_destroyOnly(t);
 	}
 }
 
-// Print a givent amount of space (for drawing the tree) 
+// Print a givent amount of space (for drawing the tree)
 void printDepth(int depth){
 	int i;
+	printf("%s", TREE_COLOR_YELLOW);
 	for(i = 0 ; i < depth ; i++)
 		printf("│   ");
 }
 
-// Print a node and all their childs
-void node_printChilds(node * n, void (*labelPrint)(void *), int depth){
-	if(n != NULL){
+// Print a tree and all their childs
+void tree_printChilds(tree * t, void (*labelPrint)(void *), int depth){
+	if(t != NULL){
 
-		// Print the node
-		labelPrint(n->label);
+		// Print the tree
+		printf("%s", TREE_COLOR_RESET);
+		labelPrint(t->label);
+		printf("%s", TREE_COLOR_RESET);
 
+		if(tree_printDebug){
+			printf(" | {n°: %s%i%s} - {@: %s%p%s} - {father: %s%p%s} - {left: %s%p%s | right: %s%p%s}", 
+							TREE_COLOR_BLUE, 
+							t->number,
+							TREE_COLOR_RESET,
+							TREE_COLOR_BLUE,
+							t, 
+							TREE_COLOR_RESET,
+							TREE_COLOR_BLUE,
+							t->father,
+							TREE_COLOR_RESET,
+							TREE_COLOR_BLUE,
+							t->left,
+							TREE_COLOR_RESET,
+							TREE_COLOR_BLUE,
+							t->right,
+							TREE_COLOR_RESET);
+		}
 
 		// Print the left child
-		if(n->left != NULL){
+		if(t->left != NULL){
 			printf("\n");
 			printDepth(depth);
-			
+
 			// Choose between a simple and multiple corner
-			if(n->right != NULL)
+			if(t->right != NULL)
 				printf("├");
-			else 
+			else
 				printf("└");
 
 			printf("── ");
-			node_printChilds(n->left, labelPrint, depth + 1);
+			tree_printChilds(t->left, labelPrint, depth + 1);
 		}
 
 
 		// Print the right child
-		if(n->right != NULL){
+		if(t->right != NULL){
 			printf("\n");
 			printDepth(depth);
 			printf("└── ");
-			node_printChilds(n->right, labelPrint, depth + 1);
+			tree_printChilds(t->right, labelPrint, depth + 1);
 		}
 	}
 }
 
-// Return the pointer to the node with the number given
-node * node_numberSearch(node * n, int number){
-	node * leftSearch, * rightSearch;
+// Print all a tree
+void tree_print(tree * t, void (*labelPrint)(void *)){
+	tree_printChilds(t, labelPrint, 0);
+	printf("\n");
+}
 
-	if(n != NULL){
-		if(n->number == number)
-			return n;		
+// Return the pointer to the node in the tree with the number given
+tree * tree_numberSearch(tree * t, int number){
+	tree * leftSearch, * rightSearch;
 
-		leftSearch  = node_numberSearch(n->left, number);
-		rightSearch = node_numberSearch(n->right, number);
+	if(t != NULL){
+		if(t->number == number)
+			return t;
+
+		leftSearch  = tree_numberSearch(t->left, number);
+		rightSearch = tree_numberSearch(t->right, number);
 
 		if(leftSearch != NULL)
 			return leftSearch;
@@ -203,7 +241,7 @@ void label_printBool(void * e){
 
 // Print a label that is a pointer
 void label_printPointer(void * e){
-	
+
 	printf("%p", e);
 }
 
@@ -220,40 +258,3 @@ void label_printString(void * e){
 }
 
 
-/* ----------------------- */
-/* FUNCTIONS FOR THE TREES */
-/* ----------------------- */
-
-// Return true if the tree is empty
-bool tree_isEmpty(binaryTree * t){
-	if(t != NULL)
-		return t->size == 0;
-	return true;
-}
-
-// Create and return a pointer to a tree
-binaryTree * tree_create(int size, node * root){
-	binaryTree * t = malloc(sizeof(binaryTree));
-
-	t->size = size;
-	t->root = root;
-
-	return t;
-}
-
-// Destory a tree (and all it's nodes)
-void tree_destroy(binaryTree ** t){
-	if(t != NULL){
-		node_destoryChilds(&((*t)->root));	
-		free(*t);
-	}
-	*t = NULL;
-}
-
-// Print a tree
-void tree_print(binaryTree * t, void (*labelPrint)(void *)){
-	if(t != NULL){
-		node_printChilds(t->root, labelPrint, 0);
-		printf("\n");
-	}
-}
