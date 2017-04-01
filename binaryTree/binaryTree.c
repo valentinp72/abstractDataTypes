@@ -119,16 +119,29 @@ void tree_destroy(tree ** t){
 	}
 }
 
+// Return the height of the tree
+int tree_height(tree * t){
+	if(t != NULL)
+		return 1 + tree_height(t->father);
+	return 0;
+}
+
+// A table for knowing if we have to display vertical bars
+bool bar[1024] = {true};
+
 // Print a givent amount of space (for drawing the tree)
 void printDepth(int depth){
 	int i;
 	printf("%s", TREE_COLOR_YELLOW);
 	for(i = 0 ; i < depth ; i++)
-		printf("│   ");
+		if(bar[i] == true)
+			printf("│   ");
+		else
+			printf("    ");
 }
 
 // Print a tree and all their childs
-void tree_printChilds(tree * t, void (*labelPrint)(void *), int depth){
+void tree_printChilds(tree * t, void (*labelPrint)(void *), int depth, int base){
 	if(t != NULL){
 
 		// Print the tree
@@ -161,13 +174,17 @@ void tree_printChilds(tree * t, void (*labelPrint)(void *), int depth){
 			printDepth(depth);
 
 			// Choose between a simple and multiple corner
-			if(t->right != NULL)
+			if(t->right != NULL){
 				printf("├");
-			else
+				bar[depth] = true;
+			}
+			else {
 				printf("└");
+				bar[depth] = false;
+			}
 
 			printf("── ");
-			tree_printChilds(t->left, labelPrint, depth + 1);
+			tree_printChilds(t->left, labelPrint, depth + 1, base + depth);
 		}
 
 
@@ -176,14 +193,15 @@ void tree_printChilds(tree * t, void (*labelPrint)(void *), int depth){
 			printf("\n");
 			printDepth(depth);
 			printf("└── ");
-			tree_printChilds(t->right, labelPrint, depth + 1);
+			bar[depth] = false;
+			tree_printChilds(t->right, labelPrint, depth + 1, base + depth);
 		}
 	}
 }
 
 // Print all a tree
 void tree_print(tree * t, void (*labelPrint)(void *)){
-	tree_printChilds(t, labelPrint, 0);
+	tree_printChilds(t, labelPrint, 0, 0);
 	printf("\n");
 }
 

@@ -74,11 +74,11 @@ void tree_destroyOnly(tree ** t);
 // Destroy the tree and their childs
 void tree_destroy(tree ** t);
 
+// Return the height of the tree
+int tree_height(tree * t);
+
 // Print a tree (must give a function pointer to print the label)
 void tree_print(tree * t, void (*labelPrint)(void *));
-
-// Print a tree and all their childs
-void tree_printChilds(tree * t, void (*labelPrint)(void *), int depth);
 
 // Return the pointer to the tree with the number given
 tree * tree_numberSearch(tree * t, int number);
