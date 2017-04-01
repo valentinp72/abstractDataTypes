@@ -1,0 +1,120 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "ADT_BINARYTREE" "2" "April 2017" "PELLOIN Valentin" "adt_binarytree.1 manual"
+.
+.SH "NAME"
+\fBadt_binarytree\fR \- C functions for binary trees
+.
+.SH "SYNOPSIS"
+\fB#include "binaryTree\.h"\fR
+.
+.br
+.
+.P
+\fItree *\fR
+.
+.br
+\fBtree_create\fR(\fIint number, void * label, tree * father, tree * left, tree * right\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBtree_destroy\fR(tree ** t);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBtree_updateFathers\fR(tree * t);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBtree_print\fR(\fItree * t, void (\fIlabelPrint)(void\fR)\fR);
+.
+.br
+.
+.P
+\fIint\fR
+.
+.br
+\fBtree_height\fR(\fItree * t\fR);
+.
+.br
+.
+.P
+\fItree *\fR
+.
+.br
+\fBtree_numberSearch\fR(\fItree * t, int number\fR);
+.
+.br
+.
+.P
+\fIbool\fR
+.
+.br
+\fBtree_exist\fR(\fItree * t\fR);
+.
+.br
+.
+.P
+\fIbool\fR
+.
+.br
+\fBtree_isLeaf\fR(\fItree * t\fR);
+.
+.br
+.
+.P
+\fIbool\fR
+.
+.br
+\fBtree_isFather\fR(\fItree * t\fR);
+.
+.br
+.
+.SH "DESCRIPTION"
+The \fBtree\fR functions allows creation, manipulation, and printing of tree in C\. Labels inside the tree are \fIvoid *\fR, everything can be pointed behind the label\.
+.
+.br
+The structure of a \fBtree\fR is defined in \fI"binaryTree\.h"\fR as:
+.
+.br
+.
+.IP "" 4
+.
+.nf
+
+typedef struct tree_s{
+ int number;
+ void * label;
+ struct tree_s * left;
+ struct tree_s * right;
+ struct tree_s * father;
+} *tree*;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+If a tree does not have a left\-tree, a right\-tree or a father (the root), it needs to be set to \fINULL\fR\.
+.
+.SH "OPTIONS"
+\fIbool\fR \fBtree_printDebug\fR; \-\- If true, all datas of the tree structure will be displayed by \fBtree_print\fR
+.
+.SH "AUTHOR"
+Valentin Pelloin (@valentinp72 \- contact@valentinp72\.fr)
+.
+.SH "SEE ALSO"
+\fBadt_list\fR(2), \fBadt_queue\fR(2), \fBadt_stack\fR(2), \fBadt_labels\fR(2)

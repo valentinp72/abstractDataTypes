@@ -1,0 +1,42 @@
+adt_labels(2) -- C functions for labels
+=======================================
+
+## SYNOPSIS
+
+`#include "labels.h"`<br>
+
+
+<void> <br>
+`label_printInt`(<void * e>); <br>
+
+<void> <br>
+`label_printLong`(<void * e>); <br>
+
+<void> <br>
+`label_printDouble`(<void * e>); <br>
+
+<void> <br>
+`label_printBool`(<void * e>); <br>
+
+<void> <br>
+`label_printPointer`(<void * e>); <br>
+
+<void> <br>
+`label_printChar`(<void * e>); <br>
+
+<void> <br>
+`label_printString`(<void * e>); <br>
+
+
+
+## DESCRIPTION
+
+The <label_print*> functions allows printing a label. 
+
+## AUTHOR
+
+Valentin Pelloin (@valentinp72 - contact@valentinp72.fr)
+
+## SEE ALSO
+
+`adt_list`(2), `adt_queue`(2), `adt_stack`(2), `adt_binarytree`(2)

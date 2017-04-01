@@ -68,9 +68,6 @@ tree * tree_create(int number, void * label, tree * father, tree * left, tree * 
 // Update the pointers for the father for all the tree
 void tree_updateFathers(tree * t);
 
-// Destroy the tree
-void tree_destroyOnly(tree ** t);
-
 // Destroy the tree and their childs
 void tree_destroy(tree ** t);
 
