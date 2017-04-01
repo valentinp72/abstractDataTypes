@@ -1,16 +1,18 @@
-PROGS = binaryTree
+PROGS = labels/test binaryTree/test 
 
-all: $(PROGS)/test
+all: $(PROGS)
 
-$(PROGS)/test: $(PROGS)/test.o $(PROGS)/$(PROGS).o
-	gcc -o $@ ${FLAGS} $^
+labels/test: labels/test.o labels/labels.o
+	gcc -o $@ $^
+binaryTree/test: binaryTree/test.o binaryTree/binaryTree.o labels/labels.o
+	gcc -o $@ $^
 
 %.o: %.c
-	gcc -Wall -c $^ -o $@
+	gcc -c $^ -o $@
 
 clean:
 	find . -name '*.o' -delete #remove *.o files in all directories
-	rm binaryTree/test
+	rm $(PROGS)
 
 clear: clean
 

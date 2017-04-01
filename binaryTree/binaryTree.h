@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "../labels/labels.h"
+
 #define ERROR    1
 #define NO_ERROR 0
 
@@ -22,8 +24,6 @@ typedef struct tree_s{
 	struct tree_s * right;
 	struct tree_s * father;
 } tree;
-
-
 
 /* ----------------------- */
 /* FUNCTIONS FOR THE TREES */
@@ -79,35 +79,6 @@ void tree_print(tree * t, void (*labelPrint)(void *));
 
 // Return the pointer to the tree with the number given
 tree * tree_numberSearch(tree * t, int number);
-
-
-/* ---------------------------------------- */
-/* FUNCTIONS FOR PRINTING SOME LABELS TYPES */
-/* ---------------------------------------- */
-
-// Print a label that is an int
-void label_printInt(void * e);
-
-// Print a label that is a long
-void label_printLong(void * e);
-
-// Print a label that is a float
-void label_printFloat(void * e);
-
-// Print a label that is a double
-void label_printDouble(void * e);
-
-// Print a label that is a boolean
-void label_printBool(void * e);
-
-// Print a label that is a pointer
-void label_printPointer(void * e);
-
-// Print a label that is a char
-void label_printChar(void * e);
-
-// Print a label that is a string
-void label_printString(void * e);
 
 
 /* ---------------------- */
