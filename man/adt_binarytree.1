@@ -44,6 +44,14 @@
 .br
 .
 .P
+\fItree *\fR
+.
+.br
+\fBtree_numberSearch\fR(\fItree * t, int number\fR);
+.
+.br
+.
+.P
 \fIvoid\fR
 .
 .br
@@ -64,14 +72,6 @@
 .
 .br
 \fBtree_height\fR(\fItree * t\fR);
-.
-.br
-.
-.P
-\fItree *\fR
-.
-.br
-\fBtree_numberSearch\fR(\fItree * t, int number\fR);
 .
 .br
 .
@@ -127,10 +127,19 @@ typedef struct tree_s{
 If a tree does not have a left\-tree, a right\-tree or a father (the root), it needs to be set to \fINULL\fR\.
 .
 .P
+The function \fBtree_create\fR create a tree\. The \fInumber\fR argument is only to search nodes with the function \fItree_numberSearch\fR\. The \fIlabel\fR argument is a pointer to everything\. The content of the label is duplicated inside the tree\. The \fIsize\fR represents the size of the content inside the label\. \fIfather\fR, \fIleft\fR, and \fIright\fR represents respectively the father of the tree, the left tree and the right tree\. Theses arguments can be set to \fINULL\fR\.
+.
+.P
+It is possible to create a tree, and to not specify the fathers in each node, and, after the creation to call \fBtree_updateFathers\fR to set all the fathers in all the tree\.
+.
+.P
 The function \fBtree_depth\fR return the depth of the tree: it\'s the distance between the given tree and the root\.
 .
 .br
 The function \fBtree_height\fR return the height of the tree: it\'s the maximum distance between a tree and their childs\.
+.
+.br
+The function \fBtree_print\fR print a tree, and needs a function pointer for printing labels\. There are already several functions like this in \fBadt_labels\fR(2)\.
 .
 .SH "OPTIONS"
 \fIbool\fR \fBtree_printDebug\fR; \-\- If true, all datas of the tree structure will be displayed by \fBtree_print\fR

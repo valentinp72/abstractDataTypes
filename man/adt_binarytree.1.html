@@ -94,6 +94,9 @@
 <p><var>void</var> <br />
 <code>tree_updateFathers</code>(<var>tree * t</var>); <br /></p>
 
+<p><var>tree *</var> <br />
+<code>tree_numberSearch</code>(<var>tree * t, int number</var>); <br /></p>
+
 <p><var>void</var> <br />
 <code>tree_print</code>(<var>tree * t, void (<em>labelPrint)(void </em>)</var>); <br /></p>
 
@@ -102,9 +105,6 @@
 
 <p><var>int</var> <br />
 <code>tree_height</code>(<var>tree * t</var>); <br /></p>
-
-<p><var>tree *</var> <br />
-<code>tree_numberSearch</code>(<var>tree * t, int number</var>); <br /></p>
 
 <p><var>bool</var> <br />
 <code>tree_exist</code>(<var>tree * t</var>); <br /></p>
@@ -131,8 +131,15 @@ The structure of a <strong>tree</strong> is defined in <var>"binaryTree.h"</var>
 
 <p>If a tree does not have a left-tree, a right-tree or a father (the root), it needs to be set to <var>NULL</var>.</p>
 
+<p>The function <code>tree_create</code> create a tree. The <em>number</em> argument is only to search nodes with the function <var>tree_numberSearch</var>.
+The <em>label</em> argument is a pointer to everything. The content of the label is duplicated inside the tree. The <em>size</em> represents the size of the content inside the label.
+<em>father</em>, <em>left</em>, and <em>right</em> represents respectively the father of the tree, the left tree and the right tree. Theses arguments can be set to <em>NULL</em>.</p>
+
+<p>It is possible to create a tree, and to not specify the fathers in each node, and, after the creation to call <code>tree_updateFathers</code> to set all the fathers in all the tree.</p>
+
 <p>The function <code>tree_depth</code> return the depth of the tree: it's the distance between the given tree and the root. <br />
-The function <code>tree_height</code> return the height of the tree: it's the maximum distance between a tree and their childs.</p>
+The function <code>tree_height</code> return the height of the tree: it's the maximum distance between a tree and their childs.<br />
+The function <code>tree_print</code> print a tree, and needs a function pointer for printing labels. There are already several functions like this in <code>adt_labels</code>(2).</p>
 
 <h2 id="OPTIONS">OPTIONS</h2>
 
