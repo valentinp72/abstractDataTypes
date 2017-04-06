@@ -83,16 +83,22 @@
 <p><code>#include "binaryTree.h"</code><br /></p>
 
 <p><var>tree *</var> <br />
-<code>tree_create</code>(<var>int number, void * label, tree * father, tree * left, tree * right</var>); <br /></p>
+<code>tree_create</code>(<var>int number, void * label, size_t size, tree * father, tree * left, tree * right</var>); <br /></p>
 
 <p><var>void</var> <br />
-<code>tree_destroy</code>(tree ** t); <br /></p>
+<code>tree_destroy</code>(<var>tree ** t</var>); <br /></p>
 
 <p><var>void</var> <br />
-<code>tree_updateFathers</code>(tree * t); <br /></p>
+<code>tree_setLabel</code>(<var>tree * t, void * label, size_t size</var>); <br /></p>
+
+<p><var>void</var> <br />
+<code>tree_updateFathers</code>(<var>tree * t</var>); <br /></p>
 
 <p><var>void</var> <br />
 <code>tree_print</code>(<var>tree * t, void (<em>labelPrint)(void </em>)</var>); <br /></p>
+
+<p><var>int</var> <br />
+<code>tree_depth</code>(<var>tree * t</var>); <br /></p>
 
 <p><var>int</var> <br />
 <code>tree_height</code>(<var>tree * t</var>); <br /></p>
@@ -124,6 +130,9 @@ The structure of a <strong>tree</strong> is defined in <var>"binaryTree.h"</var>
 </code></pre>
 
 <p>If a tree does not have a left-tree, a right-tree or a father (the root), it needs to be set to <var>NULL</var>.</p>
+
+<p>The function <code>tree_depth</code> return the depth of the tree: it's the distance between the given tree and the root. <br />
+The function <code>tree_height</code> return the height of the tree: it's the maximum distance between a tree and their childs.</p>
 
 <h2 id="OPTIONS">OPTIONS</h2>
 

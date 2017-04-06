@@ -7,16 +7,22 @@ adt_binarytree(2) -- C functions for binary trees
 
 
 <tree *> <br> 
-`tree_create`(<int number, void * label, tree * father, tree * left, tree * right>); <br>
+`tree_create`(<int number, void * label, size_t size, tree * father, tree * left, tree * right>); <br>
 
 <void> <br>
-`tree_destroy`(tree ** t); <br>
+`tree_destroy`(<tree ** t>); <br>
 
 <void> <br>
-`tree_updateFathers`(tree * t); <br>
+`tree_setLabel`(<tree * t, void * label, size_t size>); <br>
+
+<void> <br>
+`tree_updateFathers`(<tree * t>); <br>
 
 <void> <br>
 `tree_print`(<tree * t, void (*labelPrint)(void *)>); <br>
+
+<int> <br>
+`tree_depth`(<tree * t>); <br>
 
 <int> <br>
 `tree_height`(<tree * t>); <br>
@@ -49,6 +55,9 @@ The structure of a **tree** is defined in <var>"binaryTree.h"</var> as: <br>
 	} *tree*;
 
 If a tree does not have a left-tree, a right-tree or a father (the root), it needs to be set to <NULL>.
+
+The function `tree_depth` return the depth of the tree: it's the distance between the given tree and the root. <br>
+The function `tree_height` return the height of the tree: it's the maximum distance between a tree and their childs.
 
 ## OPTIONS
 

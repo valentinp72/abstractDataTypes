@@ -1,64 +1,47 @@
+/*
+	binaryTree.c
+
+	PELLOIN Valentin
+
+	GNU General Public License v3.0
+	https://github.com/valentinp72/abstractDataTypes/
+
+*/
 #include "binaryTree.h"
 
-// Default value for debug. Don't touch this, change it within your code
+
+// Used to know if we have to draw the vertical lines
+#define MAX_BAR 1024
+
+// ANSI colors
+#define TREE_COLOR_RED     "\x1b[31m"
+#define TREE_COLOR_GREEN   "\x1b[32m"
+#define TREE_COLOR_YELLOW  "\x1b[33m"
+#define TREE_COLOR_BLUE    "\x1b[34m"
+#define TREE_COLOR_MAGENTA "\x1b[35m"
+#define TREE_COLOR_CYAN    "\x1b[36m"
+#define TREE_COLOR_RESET   "\x1b[0m"
+
+// Characters used to display the tree
+#define TREE_CORNER         "└"
+#define TREE_CENTER         "├"
+#define TREE_HORIZONTAL_BAR "──"
+#define TREE_VERTICAL_BAR   "│"
+
+
+// Default value for debug
+// Don't touch this, change it within your code
 bool tree_printDebug = false;
 
+int max(int a, int b){
+	if(a > b)
+		return a;
+	return b;
+}
 
 /* ----------------------- */
 /* FUNCTIONS FOR THE TREES */
 /* ----------------------- */
-
-// Return the number of a tree
-int tree_numberRead(tree * t){
-	if(t != NULL)
-		return t->number;
-	return ERROR;
-}
-
-// Write the number in a tree
-void tree_numberWrite(tree * t, int number){
-	if(t != NULL)
-		t->number = number;
-}
-
-// Return the label of a tree
-void * tree_labelRead(tree * t){
-	if(t != NULL)
-		return t->label;
-	return NULL;
-}
-
-// Write the label of a tree
-void tree_labelWrite(tree * t, void * label){
-	if(t != NULL)
-		t->label = label;
-}
-
-// Return the left tree of a tree
-tree * tree_leftTreeRead(tree * t){
-	if(t != NULL)
-		return t->left;
-	return NULL;
-}
-
-// Return the right tree of a tree
-tree * tree_rightTreeRead(tree * t){
-	if(t != NULL)
-		return t->right;
-	return NULL;
-}
-
-// Write the left tree of a tree
-void tree_leftTreeWrite(tree * t, tree * left){
-	if(t != NULL)
-		t->left = left;
-}
-
-// Write the right tree of a tree
-void tree_rightTreeWrite(tree * t, tree * right){
-	if(t != NULL)
-		t->right = right;
-}
 
 // Return true if the tree exist
 bool tree_exist(tree * t){
@@ -75,17 +58,62 @@ bool tree_isFather(tree * t){
 	return !tree_isLeaf(t);
 }
 
+// Return the depth of the tree (distance between the given tree and the root)
+int tree_depth(tree * t){
+	if(t != NULL)
+		return 1 + tree_depth(t->father);
+	return 0;
+}
+
+// Return the height of the tree (maximum distance between a tree and it's childs)
+int tree_height(tree * t){
+	if(t != NULL){
+		return 1 + max(tree_height(t->left), tree_height(t->right));	
+	}
+	return 0;
+}
+
+// Return the pointer to the node in the tree with the number given
+tree * tree_numberSearch(tree * t, int number){
+	tree * leftSearch, * rightSearch;
+
+	if(t != NULL){
+		if(t->number == number)
+			return t;
+
+		leftSearch  = tree_numberSearch(t->left, number);
+		rightSearch = tree_numberSearch(t->right, number);
+
+		if(leftSearch != NULL)
+			return leftSearch;
+		return rightSearch;
+	}
+	return NULL;
+}
+
 // Create a tree
-tree * tree_create(int number, void * label, tree* father, tree * left, tree * right){
+tree * tree_create(int number, void * label, size_t size, tree* father, tree * left, tree * right){
 	tree * t = malloc(sizeof(tree));
 
 	t->number = number;
-	t->label  = label;
+	t->label  = NULL;
 	t->father = father;
 	t->left   = left;
 	t->right  = right;
 
+	tree_setLabel(t, label, size);
+
 	return t;
+}
+
+// Set the label of the tree
+void tree_setLabel(tree * t, void * label, size_t size){
+	if(t != NULL){
+		if(t->label != NULL)
+			free(t->label);		
+		t->label = malloc(size);
+		memcpy(t->label, label, size);
+	}
 }
 
 // Update the pointers for the father for all the tree
@@ -104,8 +132,11 @@ void tree_updateFathers(tree * t){
 
 // Destroy the tree
 void tree_destroyOnly(tree ** t){
-	if(*t != NULL)
+	if(*t != NULL){
+		free((*t)->label);
+		(*t)->label = NULL;
 		free(*t);
+	}
 	*t = NULL;
 }
 
@@ -118,23 +149,16 @@ void tree_destroy(tree ** t){
 	}
 }
 
-// Return the height of the tree
-int tree_height(tree * t){
-	if(t != NULL)
-		return 1 + tree_height(t->father);
-	return 0;
-}
-
 // A table for knowing if we have to display vertical bars
-bool bar[1024] = {true};
+bool bar[MAX_BAR] = {true};
 
 // Print a givent amount of space (for drawing the tree)
 void printDepth(int depth){
 	int i;
 	printf("%s", TREE_COLOR_YELLOW);
 	for(i = 0 ; i < depth ; i++)
-		if(bar[i] == true)
-			printf("│   ");
+		if(i < MAX_BAR && bar[i] == true)
+			printf("%s   ", TREE_VERTICAL_BAR);
 		else
 			printf("    ");
 }
@@ -174,15 +198,15 @@ void tree_printChilds(tree * t, void (*labelPrint)(void *), int depth, int base)
 
 			// Choose between a simple and multiple corner
 			if(t->right != NULL){
-				printf("├");
+				printf("%s", TREE_CENTER);
 				bar[depth] = true;
 			}
 			else {
-				printf("└");
+				printf("%s", TREE_CORNER);
 				bar[depth] = false;
 			}
 
-			printf("── ");
+			printf("%s ", TREE_HORIZONTAL_BAR);
 			tree_printChilds(t->left, labelPrint, depth + 1, base + depth);
 		}
 
@@ -191,7 +215,7 @@ void tree_printChilds(tree * t, void (*labelPrint)(void *), int depth, int base)
 		if(t->right != NULL){
 			printf("\n");
 			printDepth(depth);
-			printf("└── ");
+			printf("%s%s ", TREE_CORNER, TREE_HORIZONTAL_BAR);
 			bar[depth] = false;
 			tree_printChilds(t->right, labelPrint, depth + 1, base + depth);
 		}
@@ -203,23 +227,4 @@ void tree_print(tree * t, void (*labelPrint)(void *)){
 	tree_printChilds(t, labelPrint, 0, 0);
 	printf("\n");
 }
-
-// Return the pointer to the node in the tree with the number given
-tree * tree_numberSearch(tree * t, int number){
-	tree * leftSearch, * rightSearch;
-
-	if(t != NULL){
-		if(t->number == number)
-			return t;
-
-		leftSearch  = tree_numberSearch(t->left, number);
-		rightSearch = tree_numberSearch(t->right, number);
-
-		if(leftSearch != NULL)
-			return leftSearch;
-		return rightSearch;
-	}
-	return NULL;
-}
-
 

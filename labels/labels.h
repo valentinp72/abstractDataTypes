@@ -1,8 +1,29 @@
+/*
+	labels.h
+
+	PELLOIN Valentin
+
+	GNU General Public License v3.0
+	https://github.com/valentinp72/abstractDataTypes/
+
+*/
 #ifndef LABELS_H
 #define LABELS_H
 
 #include <stdio.h>
 #include <stdbool.h>
+
+/* --------------- */
+/* SIZE FOR LABELS */
+/* --------------- */
+
+extern const size_t size_int;
+extern const size_t size_long;
+extern const size_t size_float;
+extern const size_t size_double;
+extern const size_t size_bool;
+extern const size_t size_pointer;
+extern const size_t size_char;
 
 /* ---------------------------------------- */
 /* FUNCTIONS FOR PRINTING SOME LABELS TYPES */

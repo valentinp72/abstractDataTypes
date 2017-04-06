@@ -15,7 +15,7 @@
 \fItree *\fR
 .
 .br
-\fBtree_create\fR(\fIint number, void * label, tree * father, tree * left, tree * right\fR);
+\fBtree_create\fR(\fIint number, void * label, size_t size, tree * father, tree * left, tree * right\fR);
 .
 .br
 .
@@ -23,7 +23,7 @@
 \fIvoid\fR
 .
 .br
-\fBtree_destroy\fR(tree ** t);
+\fBtree_destroy\fR(\fItree ** t\fR);
 .
 .br
 .
@@ -31,7 +31,15 @@
 \fIvoid\fR
 .
 .br
-\fBtree_updateFathers\fR(tree * t);
+\fBtree_setLabel\fR(\fItree * t, void * label, size_t size\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBtree_updateFathers\fR(\fItree * t\fR);
 .
 .br
 .
@@ -40,6 +48,14 @@
 .
 .br
 \fBtree_print\fR(\fItree * t, void (\fIlabelPrint)(void\fR)\fR);
+.
+.br
+.
+.P
+\fIint\fR
+.
+.br
+\fBtree_depth\fR(\fItree * t\fR);
 .
 .br
 .
@@ -109,6 +125,12 @@ typedef struct tree_s{
 .
 .P
 If a tree does not have a left\-tree, a right\-tree or a father (the root), it needs to be set to \fINULL\fR\.
+.
+.P
+The function \fBtree_depth\fR return the depth of the tree: it\'s the distance between the given tree and the root\.
+.
+.br
+The function \fBtree_height\fR return the height of the tree: it\'s the maximum distance between a tree and their childs\.
 .
 .SH "OPTIONS"
 \fIbool\fR \fBtree_printDebug\fR; \-\- If true, all datas of the tree structure will be displayed by \fBtree_print\fR

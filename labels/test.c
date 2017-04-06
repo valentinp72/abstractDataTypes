@@ -1,3 +1,12 @@
+/*
+	test.c
+
+	PELLOIN Valentin
+
+	GNU General Public License v3.0
+	https://github.com/valentinp72/abstractDataTypes/
+
+*/
 #include "labels.h"
 
 int main(){

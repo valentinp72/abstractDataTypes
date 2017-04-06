@@ -1,4 +1,25 @@
+/*
+	labels.c
+
+	PELLOIN Valentin
+
+	GNU General Public License v3.0
+	https://github.com/valentinp72/abstractDataTypes/
+
+*/
 #include "labels.h"
+
+/* --------------- */
+/* SIZE FOR LABELS */
+/* --------------- */
+
+const size_t size_int     = sizeof(int);
+const size_t size_long    = sizeof(long);
+const size_t size_float   = sizeof(float);
+const size_t size_double  = sizeof(double);
+const size_t size_nool    = sizeof(bool);
+const size_t size_pointer = sizeof(void);
+const size_t size_char    = sizeof(char);
 
 /* ---------------------------------------- */
 /* FUNCTIONS FOR PRINTING SOME LABELS TYPES */
