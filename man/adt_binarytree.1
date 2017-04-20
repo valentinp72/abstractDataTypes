@@ -1,0 +1,151 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "ADT_BINARYTREE" "2" "April 2017" "PELLOIN Valentin" "adt_binarytree.1 manual"
+.
+.SH "NAME"
+\fBadt_binarytree\fR \- C functions for binary trees
+.
+.SH "SYNOPSIS"
+\fB#include "binaryTree\.h"\fR
+.
+.br
+.
+.P
+\fItree *\fR
+.
+.br
+\fBtree_create\fR(\fIint number, void * label, size_t size, tree * father, tree * left, tree * right\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBtree_destroy\fR(\fItree ** t\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBtree_setLabel\fR(\fItree * t, void * label, size_t size\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBtree_updateFathers\fR(\fItree * t\fR);
+.
+.br
+.
+.P
+\fItree *\fR
+.
+.br
+\fBtree_numberSearch\fR(\fItree * t, int number\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBtree_print\fR(\fItree * t, void (\fIlabelPrint)(void\fR)\fR);
+.
+.br
+.
+.P
+\fIint\fR
+.
+.br
+\fBtree_depth\fR(\fItree * t\fR);
+.
+.br
+.
+.P
+\fIint\fR
+.
+.br
+\fBtree_height\fR(\fItree * t\fR);
+.
+.br
+.
+.P
+\fIbool\fR
+.
+.br
+\fBtree_exist\fR(\fItree * t\fR);
+.
+.br
+.
+.P
+\fIbool\fR
+.
+.br
+\fBtree_isLeaf\fR(\fItree * t\fR);
+.
+.br
+.
+.P
+\fIbool\fR
+.
+.br
+\fBtree_isFather\fR(\fItree * t\fR);
+.
+.br
+.
+.SH "DESCRIPTION"
+The \fBtree\fR functions allows creation, manipulation, and printing of tree in C\. Labels inside the tree are \fIvoid *\fR, everything can be pointed behind the label\.
+.
+.br
+The structure of a \fBtree\fR is defined in \fI"binaryTree\.h"\fR as:
+.
+.br
+.
+.IP "" 4
+.
+.nf
+
+typedef struct tree_s{
+ int number;
+ void * label;
+ struct tree_s * left;
+ struct tree_s * right;
+ struct tree_s * father;
+} *tree*;
+.
+.fi
+.
+.IP "" 0
+.
+.P
+If a tree does not have a left\-tree, a right\-tree or a father (the root), it needs to be set to \fINULL\fR\.
+.
+.P
+The function \fBtree_create\fR create a tree\. The \fInumber\fR argument is only to search nodes with the function \fItree_numberSearch\fR\. The \fIlabel\fR argument is a pointer to everything\. The content of the label is duplicated inside the tree\. The \fIsize\fR represents the size of the content inside the label\. \fIfather\fR, \fIleft\fR, and \fIright\fR represents respectively the father of the tree, the left tree and the right tree\. Theses arguments can be set to \fINULL\fR\.
+.
+.P
+It is possible to create a tree, and to not specify the fathers in each node, and, after the creation to call \fBtree_updateFathers\fR to set all the fathers in all the tree\.
+.
+.P
+The function \fBtree_depth\fR return the depth of the tree: it\'s the distance between the given tree and the root\.
+.
+.br
+The function \fBtree_height\fR return the height of the tree: it\'s the maximum distance between a tree and their childs\.
+.
+.br
+The function \fBtree_print\fR print a tree, and needs a function pointer for printing labels\. There are already several functions like this in \fBadt_labels\fR(2)\.
+.
+.SH "OPTIONS"
+\fIbool\fR \fBtree_printDebug\fR; \-\- If true, all datas of the tree structure will be displayed by \fBtree_print\fR
+.
+.SH "AUTHOR"
+Valentin Pelloin (@valentinp72 \- contact@valentinp72\.fr)
+.
+.SH "SEE ALSO"
+\fBadt_list\fR(2), \fBadt_queue\fR(2), \fBadt_stack\fR(2), \fBadt_labels\fR(2)

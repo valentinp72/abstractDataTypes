@@ -1,0 +1,80 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "ADT_LABELS" "2" "April 2017" "PELLOIN Valentin" "adt_labels.1 manual"
+.
+.SH "NAME"
+\fBadt_labels\fR \- C functions for labels
+.
+.SH "SYNOPSIS"
+\fB#include "labels\.h"\fR
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBlabel_printInt\fR(\fIvoid * e\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBlabel_printLong\fR(\fIvoid * e\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBlabel_printDouble\fR(\fIvoid * e\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBlabel_printBool\fR(\fIvoid * e\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBlabel_printPointer\fR(\fIvoid * e\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBlabel_printChar\fR(\fIvoid * e\fR);
+.
+.br
+.
+.P
+\fIvoid\fR
+.
+.br
+\fBlabel_printString\fR(\fIvoid * e\fR);
+.
+.br
+.
+.SH "DESCRIPTION"
+The \fIlabel_print*\fR functions allows printing a label\.
+.
+.P
+The \fIsize_int\fR, \fIsize_long\fR, \fIsize_float\fR, \fIsize_double\fR, \fIsize_bool\fR, \fIsize_pointer\fR, \fIsize_char\fR constants equals the size of the types (using \fIsizeof\fR)\.
+.
+.SH "AUTHOR"
+Valentin Pelloin (@valentinp72 \- contact@valentinp72\.fr)
+.
+.SH "SEE ALSO"
+\fBadt_list\fR(2), \fBadt_queue\fR(2), \fBadt_stack\fR(2), \fBadt_binarytree\fR(2)
